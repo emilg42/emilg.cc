@@ -10,6 +10,12 @@ const Container = styled.div`
   width: 80vw;
 `
 
+const Navigation = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 /**
  * Navigation Bar, which allows switching between various pages
  * and sections of the app.
@@ -19,14 +25,14 @@ const NavigationBar = () => {
     <>
       <Container>
         <Logo/>
-        <div>
+        <Navigation>
           <NavigationButton title={'About'}/>
           <NavigationButton title={'Projects'}/>
           <NavigationButton title={'Services'}/>
           <NavigationButton title={'Blog'}/>
-        </div>
+          <ThemeToggle/>
+        </Navigation>
       </Container>
-      <ThemeToggle/>
     </>
   )
 }

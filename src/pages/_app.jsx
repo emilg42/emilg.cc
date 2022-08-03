@@ -7,7 +7,9 @@ export const ThemeContext = createContext();
 function App({ Component, pageProps }) {
 
   const [isDarkTheme, setTheme] = useState(true);
-  const toggleTheme = () => { setTheme(!isDarkTheme) }
+  const toggleTheme = () => {
+    setTheme(!isDarkTheme);
+  }
 
   return (
     <ThemeContext.Provider value = {{ isDarkTheme, toggleTheme }}>
