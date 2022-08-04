@@ -1,4 +1,4 @@
-import { NavigationBar } from '../components/bundle'
+import { NavigationBar, SocialMenu } from '../components/bundle'
 import styled from 'styled-components'
 import Head from 'next/head'
 
@@ -16,6 +16,7 @@ const Home = () => {
       <Wrapper>
         <NavigationBar/>
       </Wrapper>
+      <SocialMenu/>
     </>
   )
 }
