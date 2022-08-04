@@ -31,13 +31,29 @@ const GlobalStyle = createGlobalStyle`
 const light = {
   body: '#FFF',
   text: '#363537',
-  border: '#FFF'
+
+  // box colors
+  primary_border: '#8892b0',
+
+  // theme colors
+  primary_theme_color: '#324F8C',
+  blend_4_theme_color: '#326498',
+  blend_5_theme_color: '#327AA3',
+  blend_6_theme_color: '#3190AF'
 }
 
 const dark = {
   body: '#23252f',
   text: '#f5f6ef',
-  border: '#3b3a51'
+  
+  // box colors
+  primary_border: '#8892b0',
+
+  // theme colors
+  primary_theme_color: '#324F8C',
+  blend_4_theme_color: '#326498',
+  blend_5_theme_color: '#327AA3',
+  blend_6_theme_color: '#3190AF'
 }
 
 export { GlobalStyle, light, dark }

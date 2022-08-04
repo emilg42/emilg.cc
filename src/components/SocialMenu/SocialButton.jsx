@@ -1,13 +1,19 @@
 import styled from "styled-components"
 
-const Container = styled.li`
+const Container = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  list-style: none;
   width: 40px;
   height: 40px;
-  background-color: red;
+  margin: 5px 0;
+  color: ${({ theme }) => theme.primary_border};
+  transition: .2s ease-in;
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.blend_6_theme_color};
+    transform: translateY(-3px);
+  }
 `
 
 /**
@@ -15,9 +21,9 @@ const Container = styled.li`
  */
 const SocialButton = ({ icon, url }) => {
   return (
-    <a>
+    <a href={url} target='_blank'>
       <Container>
-        <object type="image/svg+xml" data={`/icons/${icon}.svg`}></object>
+        { icon }
       </Container>
     </a>
   )
