@@ -1,9 +1,27 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import BranchIcon from 'public/icons/branch.svg'
 
-const Container = styled.div`
+const Container = styled.footer`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 80vw;
+  justify-content: center;
+  margin-bottom: 15px;
+  line-height: 20px;
+  font-size: 14px;
+  font-family: 'SFMono';
+  color: ${({ theme }) => theme.primary_border};
+  transition: 0.3s ease-in;
+
+  svg { transform: translateY(3px); }
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.blend_6_theme_color};
+  }
+`
+const Link = styled.a`
+  text-decoration: none;
 `
 
 /**
@@ -11,9 +29,12 @@ const Container = styled.div`
  */
 const Footer = () => {
   return (
-    <>
-      This is the footer
-    </>
+    <Link href='https://github.com/emilg42/emilg.cc' target='_blank'>
+      <Container>
+        <p>designed and built by emilg</p>
+        <p>{new Date().getFullYear()} &gt; source <BranchIcon/></p>
+      </Container>
+    </Link> 
   )
 }
 

@@ -9,8 +9,6 @@ const Container = styled.div`
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
   width: 80vw;
 `
 
@@ -25,9 +23,12 @@ const Home = () => {
       {/* Body */}
       <Container>
 
-        {/* Centered Content */}
+        {/* Content Frame */}
         <Wrapper>
           <NavigationBar/>
+
+          {/* TEMP SPACER */} <div style={{ width: '100%', height: '2000px'}}></div>
+
           <Footer/>
         </Wrapper>
 

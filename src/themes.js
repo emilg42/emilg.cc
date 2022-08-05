@@ -23,6 +23,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
+    font-family: SFMono;
+    src: url('/fonts/SFMono.otf');
+  }
+
+  @font-face {
     font-family: Cantarell;
     src: url('/fonts/Cantarell.ttf');
   }

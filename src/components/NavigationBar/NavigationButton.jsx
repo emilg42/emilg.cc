@@ -1,35 +1,5 @@
 import styled from 'styled-components'
 
-// .category-container {
-//   position: absolute;
-//   display: flex;
-//   justify-content: center;
-//   width: 100%;
-// }
-
-// .category {
-//   position: relative;
-//   display: flex;
-//   justify-content: center;
-// }
-
-// a {
-//   text-decoration: none;
-// }
-
-// .category-button {
-//   transition: all 0.2s ease-in-out;
-//   border: none;
-//   min-width: auto;
-//   text-align: center;
-// }
-
-// .category-button-active {
-//   color: black;
-//   opacity: 100%;
-// }
-
-
 const Button = styled.button`
   margin: 0 10px;
   padding: 10px 15px;
@@ -43,7 +13,7 @@ const Button = styled.button`
   color: ${({ theme }) => theme.text};
 
   &:hover {
-    background-color: #1A1C23;
+    color: ${({ theme }) => theme.blend_6_theme_color};
   }
 `
 
