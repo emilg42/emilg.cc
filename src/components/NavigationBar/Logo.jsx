@@ -23,6 +23,6 @@ const Logo = () => {
       <Title>emilg</Title>
     </Container>
   )
-} 
+}
 
 export default Logo
