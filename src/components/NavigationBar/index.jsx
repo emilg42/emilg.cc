@@ -26,10 +26,10 @@ const NavigationBar = () => {
       <Container>
         <Logo/>
         <Navigation>
-          <NavigationButton title={'About'}/>
-          <NavigationButton title={'Projects'}/>
-          <NavigationButton title={'Services'}/>
-          <NavigationButton title={'Blog'}/>
+          <NavigationButton key={0} title={'About'}/>
+          <NavigationButton key={1} title={'Projects'}/>
+          <NavigationButton key={2} title={'Services'}/>
+          <NavigationButton key={3} title={'Blog'}/>
           <ThemeToggle/>
         </Navigation>
       </Container>
