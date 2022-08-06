@@ -35,10 +35,7 @@ const ScrollButton = () => {
 
   // attach handler
   useEffect(() => {
-    function watchScroll() {
-      window.addEventListener('scroll', updateScroll);
-    }
-    watchScroll();
+    window.addEventListener('scroll', updateScroll);
     return () => {
       window.removeEventListener('scroll', updateScroll);
     };

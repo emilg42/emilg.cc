@@ -6,7 +6,7 @@ import Logo from "./Logo"
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 5px 0 20px;
+  padding: 8px 0 20px;
 `
 
 const Container = styled.div`
