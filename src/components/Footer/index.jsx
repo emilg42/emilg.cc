@@ -34,7 +34,7 @@ const Footer = () => {
         <p>designed and built by emilg</p>
         <p>{new Date().getFullYear()} &gt; source <BranchIcon/></p>
       </Container>
-    </Link> 
+    </Link>
   )
 }
 

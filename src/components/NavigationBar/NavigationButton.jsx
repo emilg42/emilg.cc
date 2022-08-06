@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react"
 import styled from 'styled-components'
+
 
 const Button = styled.button`
   margin: 0 10px;
@@ -13,14 +15,35 @@ const Button = styled.button`
   color: ${({ theme }) => theme.text};
 
   &:hover {
-    color: ${({ theme }) => theme.blend_6_theme_color};
+    background-color: ${({ theme }) => theme.secondary_border};
   }
 `
 
 const NavigationButton = ({ title }) => {
+
+  // state handling
+  const ref = useRef();
+
+  // // fetch position and width
+  // const fetchMetrics = () => {
+  //   setX(ref.current.offsetLeft);
+  //   setY(ref.current.offsetTop);
+  //   setW(ref.current.offsetWidth);
+  // };
+
+  // // initial values
+  // useEffect(() => {
+  //   fetchMetrics();
+  // }, []);
+
+  // // get position after resize
+  // useEffect(() => {
+  //   window.addEventListener('resize', fetchMetrics);
+  // }, []);
+
   return (
     <>
-      <Button>{title}</Button>
+      <Button ref={ref}>{title}</Button>
     </>
   )
 }

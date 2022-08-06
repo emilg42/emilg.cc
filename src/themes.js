@@ -11,8 +11,12 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
-  html { font-size: 100% }
-  
+  html {
+    font-size: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background: ${({ theme }) => theme.body};
   }
@@ -39,6 +43,7 @@ const light = {
 
   // box colors
   primary_border: '#8892b0',
+  secondary_border: '#1A1C23',
 
   // theme colors
   primary_theme_color: '#324F8C',
@@ -50,9 +55,10 @@ const light = {
 const dark = {
   body: '#23252f',
   text: '#f5f6ef',
-  
+
   // box colors
   primary_border: '#8892b0',
+  secondary_border: '#1A1C23',
 
   // theme colors
   primary_theme_color: '#324F8C',
