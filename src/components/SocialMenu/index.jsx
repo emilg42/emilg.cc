@@ -8,7 +8,7 @@ import MailIcon from 'public/icons/mail.svg'
 const Container = styled.div`
   position: fixed;
   bottom: 0;
-  left: 40px;
+  left: 30px;
   width: 40px;
   z-index: 10;
   text-align: center;
@@ -30,11 +30,11 @@ const SocialMenu = () => {
   return (
     <Container>
       {/* Buttons */}
-      <SocialButton icon={<GitHubIcon/>} url={'https://www.github.com/emilg42'}/>        
+      <SocialButton icon={<GitHubIcon/>} url={'https://www.github.com/emilg42'}/>
       <SocialButton icon={<TwitterIcon/>} url={'https://twitter.com/emilg42'}/>
       <SocialButton icon={<InstagramIcon/>} url={'https://www.instagram.com/emil.g42'}/>
       <SocialButton icon={<MailIcon/>} url={'mailto: contact@emilg.cc'}/>
-  
+
       {/* Vertical Line */}
       <Divider/>
     </Container>

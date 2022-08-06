@@ -1,43 +1,57 @@
-import { NavigationBar, SocialMenu, Footer, PageDivider } from '../components/bundle'
+import { NavigationBar, SocialMenu, Footer, PageDivider, ScrollButton } from '../components/bundle'
 import styled from 'styled-components'
 import Head from 'next/head'
 
-const Container = styled.div`
+const Wrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   width: 100vw;
+  background-color: ${({ theme }) => theme.body};;
 `
 
-const Wrapper = styled.div`
+const Content = styled.div`
   width: 80vw;
 `
 
+/**
+ * Landing page of website. Layout consists of 4 functional sections:
+ *  1. Header (independent)
+ *  2. Content (max width)
+ *  3. Footer (independent)
+ *  4* <individual components> (ind. width and pos.)
+ *
+ * @returns
+ */
 const Home = () => {
   return (
     <>
-      {/* Page Title */}
+      {/* Preferences */}
       <Head>
         <title>Home</title>
       </Head>
 
-      {/* Body */}
-      <Container>
+      {/* Header (1) */}
+      <NavigationBar/>
 
-        <PageDivider position={'top'}/>
-        <PageDivider position={'bottom'}/>
+      {/* Content (2) */}
+      <Wrapper>
+        <Content>
+          <div style={{width: '100%', height: '1000px'}}></div>
+        </Content>
 
+        {/* Waves */}
+        <PageDivider pos={'top'}/>
+        <PageDivider pos={'bottom'}/>
 
-        {/* Content Frame */}
-        <Wrapper>
-          <NavigationBar/>
-          {/* TEMP SPACER */} <div style={{ width: '100%', height: '2000px'}}></div>
-          <Footer/>
-        </Wrapper>
+      </Wrapper>
 
-        {/* Social Icons @ bottom left */}
-        <SocialMenu/>
-      </Container>
+      {/* Footer (3) */}
+      <Footer/>
+
+      {/* Individual (4) */}
+      <SocialMenu/>
+      <ScrollButton/>
     </>
   )
 }

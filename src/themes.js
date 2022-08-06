@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${({ theme }) => theme.body};
+    background: ${({ theme }) => theme.body2};
   }
 
   @font-face {
@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
 const light = {
   body: '#FFF',
+  body2: '#FEFE',
   text: '#363537',
 
   // box colors
@@ -54,6 +55,7 @@ const light = {
 
 const dark = {
   body: '#23252f',
+  body2: '#1d1e25',
   text: '#f5f6ef',
 
 

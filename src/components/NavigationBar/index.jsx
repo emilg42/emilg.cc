@@ -3,11 +3,17 @@ import NavigationButton from "./NavigationButton"
 import ThemeToggle from "./ThemeToggle"
 import Logo from "./Logo"
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 5px 0 20px;
+`
+
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 85vw;
 `
 
 const Navigation = styled.div`
@@ -22,7 +28,7 @@ const Navigation = styled.div`
  */
 const NavigationBar = () => {
   return (
-    <>
+    <Wrapper>
       <Container>
         <Logo/>
         <Navigation>
@@ -33,7 +39,7 @@ const NavigationBar = () => {
           <ThemeToggle/>
         </Navigation>
       </Container>
-    </>
+    </Wrapper>
   )
 }
 

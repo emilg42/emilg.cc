@@ -6,7 +6,7 @@ const Container = styled.footer`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  margin: 20px 0 15px;
   line-height: 20px;
   font-size: 14px;
   font-family: 'SFMono';
