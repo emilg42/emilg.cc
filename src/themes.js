@@ -56,6 +56,7 @@ const dark = {
   body: '#23252f',
   text: '#f5f6ef',
 
+
   // box colors
   primary_border: '#8892b0',
   secondary_border: '#1A1C23',
