@@ -7,7 +7,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100vw;
-  background-color: ${({ theme }) => theme.body};;
+  background-color: ${({ theme }) => theme.body};
+  margin: 0;
 `
 
 const Content = styled.div`

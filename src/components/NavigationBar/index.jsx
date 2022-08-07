@@ -46,20 +46,33 @@ const NavigationBar = () => {
   const [current, setCurrent] = useState(BASE)
   const initial = useRef()
 
+  // initial alignment @ spawn
   useEffect(() => {
+    alignWithInitial();
+  }, [initial.current])
 
-    // initial render
-    if (prev === BASE && current === BASE) {
-      alignWithInitial();
-    }
-
+  // event handler
+  useEffect(() => {
     window.addEventListener('resize', alignWithInitial);
-    return () => window.removeEventListener('resize', alignWithInitial);
+    return () => {
+      window.removeEventListener('resize', alignWithInitial);
+    }
   }, [])
 
+  // react-spring configuration
   const springProps = useSpring({
-    from: { left: `${prev.x}px`, top: `${prev.y}px`, width: `${prev.w}px`, height: `${prev.h}px` },
-    to: { left: `${current.x}px`, top: `${current.y}px`, width: `${current.w}px`, height: `${current.h}px` },
+    from: {
+      left: `${prev.x}px`,
+      top: `${prev.y}px`,
+      width: `${prev.w}px`,
+      height: `${prev.h}px`
+    },
+    to: {
+      left: `${current.x}px`,
+      top: `${current.y}px`,
+      width: `${current.w}px`,
+      height: `${current.h}px`
+    },
     config: { mass: 2, tension: 300, friction: 35 }
   })
 
@@ -84,7 +97,7 @@ const NavigationBar = () => {
 
           {/* Indicator */}
           <a.div style={springProps} className={'indicator'}/>
-          
+
           {/* Buttons */}
           <NavigationButton key={0} title={'About'} update={update} initial={initial}/>
           <NavigationButton key={1} title={'Projects'} update={update}/>
