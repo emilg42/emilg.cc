@@ -4,6 +4,7 @@ import styled from "styled-components"
 import NavigationButton from "./NavigationButton"
 import ThemeToggle from "./ThemeToggle"
 import Logo from "./Logo"
+import Search from "./Search";
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,6 +104,9 @@ const NavigationBar = () => {
           <NavigationButton key={1} title={'Projects'} update={update}/>
           <NavigationButton key={2} title={'Services'} update={update}/>
           <NavigationButton key={3} title={'Blog'} update={update}/>
+
+          {/* Search Menu */}
+          <Search/>
 
           {/* Light/Darkmode Toggle */}
           <ThemeToggle/>
