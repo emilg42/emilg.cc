@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
-
-const Button = styled.button`
+const Button = styled.span`
   margin: 0 10px;
   padding: 10px 15px;
   font-size: 1rem;
@@ -10,17 +9,15 @@ const Button = styled.button`
   font-family: 'Cantarell';
   border: none;
   cursor: pointer;
-  background-color: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.secondary_border};
-  }
+  z-index: 2;
 `
 
-const NavigationButton = ({ title }) => {
+const NavigationButton = ({ title, update, initial }) => {
   return (
-    <Button>{title}</Button>
+    <Button ref={initial} onMouseEnter={(element) => update(element.target)}>
+      {title}
+    </Button>
   )
 }
 

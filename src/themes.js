@@ -35,6 +35,13 @@ const GlobalStyle = createGlobalStyle`
     font-family: Cantarell;
     src: url('/fonts/Cantarell.ttf');
   }
+
+  .indicator {
+    position: absolute;
+    background-color: #121214;
+    border-radius: 12px;
+    z-index: 1;
+}
 `
 
 const light = {
@@ -61,7 +68,7 @@ const dark = {
 
   // box colors
   primary_border: '#8892b0',
-  secondary_border: '#1A1C23',
+  secondary_border: '#181a1f',
 
   // theme colors
   primary_theme_color: '#324F8C',
