@@ -1,13 +1,15 @@
-import { NavigationBar, SocialMenu, Footer, PageDivider, ScrollButton } from '../components/bundle'
 import styled from 'styled-components'
 import Head from 'next/head'
+import { NavigationBar, SocialMenu, Footer,
+         PageDivider, ScrollButton
+} from '../components/bundle'
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   width: 100vw;
-  background-color: ${({ theme }) => theme.body};
+  background-color: ${({ theme }) => theme.primary_bg_color};
   margin: 0;
 `
 

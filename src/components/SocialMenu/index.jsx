@@ -20,7 +20,7 @@ const Divider = styled.div`
   height: 100px;
   margin: 12px 0 12px;
   border-radius: 20px;
-  background-color: ${({ theme }) => theme.primary_border};
+  background-color: ${({ theme }) => theme.primary_border_color};
 `
 
 /**

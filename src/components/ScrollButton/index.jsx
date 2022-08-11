@@ -8,12 +8,12 @@ const Button = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  color: ${({ theme }) => theme.primary_border};
+  color: ${({ theme }) => theme.primary_border_color};
   transition: .2s ease-in;
 
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.blend_6_theme_color};
+    color: ${({ theme }) => theme.blend_3_theme_color};
     transform: translateY(-3px);
   }
 `

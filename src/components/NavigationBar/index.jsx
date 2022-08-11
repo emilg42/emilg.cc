@@ -16,7 +16,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 85vw;
+  width: 83vw;
+  height: 50px;
 `
 
 const Navigation = styled.div`

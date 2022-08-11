@@ -10,14 +10,16 @@ const Container = styled.footer`
   line-height: 20px;
   font-size: 14px;
   font-family: 'SFMono';
-  color: ${({ theme }) => theme.primary_border};
+  color: ${({ theme }) => theme.primary_border_color};
   transition: 0.3s ease-in;
 
-  svg { transform: translateY(3px); }
+  svg {
+    transform: translateY(3px);
+  }
 
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.blend_6_theme_color};
+    color: ${({ theme }) => theme.blend_3_theme_color};
   }
 `
 const Link = styled.a`

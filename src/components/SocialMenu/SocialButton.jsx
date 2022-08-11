@@ -6,12 +6,12 @@ const Container = styled.div`
   width: 40px;
   height: 40px;
   margin: 5px 0;
-  color: ${({ theme }) => theme.primary_border};
+  color: ${({ theme }) => theme.primary_border_color};
   transition: .2s ease-in;
 
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.blend_6_theme_color};
+    color: ${({ theme }) => theme.blend_3_theme_color};
     transform: translateY(-3px);
   }
 `

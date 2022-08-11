@@ -19,7 +19,7 @@ const ShapeDivider = styled.div`
   }
 
   .shape-fill {
-    fill: #1d1e25;
+    fill: ${({ theme }) => theme.secondary_bg_color};
   }
 `
 

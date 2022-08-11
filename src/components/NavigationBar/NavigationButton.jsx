@@ -9,7 +9,7 @@ const Button = styled.span`
   font-family: 'Cantarell';
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.primary_text_color };
   z-index: 2;
 `
 
