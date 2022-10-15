@@ -24,6 +24,13 @@ const Navigation = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .indicator {
+    position: absolute;
+    background-color: ${({ theme }) => theme.tertiary_bg_color};
+    border-radius: 12px;
+    z-index: 1;
+  }
 `
 
 // initial metrics for SSR

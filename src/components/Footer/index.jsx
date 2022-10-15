@@ -22,6 +22,7 @@ const Container = styled.footer`
     color: ${({ theme }) => theme.blend_3_theme_color};
   }
 `
+
 const Link = styled.a`
   text-decoration: none;
 `

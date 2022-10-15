@@ -26,9 +26,6 @@ const dark = {
   // border colors
   primary_border_color:   '#8892b0',
 
-  // gradients
-  icon_gradient: ''
-
 }
 
 /**
@@ -98,13 +95,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background: ${({ theme }) => theme.secondary_bg_color};
-  }
-
-  .indicator {
-    position: absolute;
-    background-color: ${({ theme }) => theme.tertiary_bg_color};
-    border-radius: 12px;
-    z-index: 1;
   }
 
   ${fonts}

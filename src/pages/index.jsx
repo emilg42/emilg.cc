@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Head from 'next/head'
 import { NavigationBar, SocialMenu, Footer,
-         PageDivider, ScrollButton
+         PageDivider, ScrollButton, About
 } from '../components/bundle'
 
 const Wrapper = styled.div`
@@ -15,6 +15,8 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
   width: 80vw;
+  &:first-child { margin-top: 100px; }
+  &:nth-last-child(3) { margin-bottom: 100px; }
 `
 
 /**
@@ -40,7 +42,8 @@ const Home = () => {
       {/* Content (2) */}
       <Wrapper>
         <Content>
-          <div style={{width: '100%', height: '1000px'}}></div>
+          <About/>
+          <div style={{ width: '100%', height: '1000px' }}></div>
         </Content>
 
         {/* Waves */}
