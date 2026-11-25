@@ -10,6 +10,7 @@ Personal portfolio, built as a static [Astro](https://astro.build) site and depl
 | `npm run dev`     | Start the dev server at `localhost:4321` |
 | `npm run build`   | Build the site to `dist/`                |
 | `npm run preview` | Serve the build locally                  |
+| `npm run demo`    | Open design proposals side by side       |
 
 ## Structure
 
@@ -21,6 +22,7 @@ src/
 ├── lib/         spring animation for nav indicator and theme toggle
 └── pages/       routes (index.astro → /)
 public/          served as-is (fonts, favicons)
+demo/            design proposals, never built or deployed (npm run demo)
 ```
 
 ## Deployment

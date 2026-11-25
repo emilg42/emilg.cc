@@ -1,0 +1,40 @@
+---
+/**
+ * A family of related <Option> cards with a heading, laid out in a row.
+ */
+const { title, description } = Astro.props;
+---
+
+<section class="group">
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
+  <div class="row"><slot /></div>
+</section>
+
+<style>
+  .group {
+    margin-bottom: 44px;
+  }
+
+  h2 {
+    font-family: 'Ubuntu';
+    font-weight: normal;
+    font-size: 22px;
+    color: var(--primary-text-color);
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-family: 'SFMono';
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--primary-border-color);
+    margin-bottom: 16px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
+    gap: 20px;
+  }
+</style>

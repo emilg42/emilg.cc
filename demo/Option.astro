@@ -1,0 +1,107 @@
+---
+/**
+ * One proposal card: number, name, hover hint, and the candidate at real
+ * size in a copy of the site header. Extra props are passed to the candidate.
+ */
+import PageDivider from '../src/components/PageDivider.astro';
+
+const { n, name, hint, logo: Logo, ...props } = Astro.props;
+---
+
+<section class="option">
+  <div class="label">
+    <span class="n">{n}</span>
+    <h3>{name}</h3>
+  </div>
+  {hint && <p class="hint">hover → {hint}</p>}
+
+  <div class="header">
+    <div class="bar">
+      <Logo {...props} />
+      <nav>
+        <span class="active">About</span>
+        <span>Blog</span>
+      </nav>
+    </div>
+    <div class="body"><PageDivider pos="top" /></div>
+  </div>
+</section>
+
+<style>
+  .option {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--primary-bg-color);
+    border: 1px solid rgb(136 146 176 / 0.15);
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .n {
+    display: grid;
+    place-items: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 15px;
+    font: 600 14px 'Cantarell';
+    color: var(--primary-bg-color);
+    background: var(--blend-3-theme-color);
+  }
+
+  h3 {
+    font-family: 'Ubuntu';
+    font-weight: normal;
+    font-size: 18px;
+    color: var(--primary-text-color);
+  }
+
+  .hint {
+    min-height: 40px;
+    font-family: 'SFMono';
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--blend-3-theme-color);
+  }
+
+  /* copy of the site header at real size */
+  .header {
+    margin-top: 14px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--secondary-bg-color);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin: 8px 20px 20px;
+  }
+
+  nav span {
+    margin: 0 2px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font: 600 1rem 'Cantarell';
+    color: var(--primary-text-color);
+  }
+
+  nav .active {
+    background: var(--tertiary-bg-color);
+  }
+
+  .body {
+    position: relative;
+    height: 40px;
+    background: var(--primary-bg-color);
+  }
+</style>

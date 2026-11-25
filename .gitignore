@@ -1,9 +1,9 @@
 # dependencies
-/node_modules
+node_modules/
 
 # astro
 /dist
-/.astro
+.astro/
 
 # misc
 .DS_Store

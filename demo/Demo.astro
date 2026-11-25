@@ -1,0 +1,81 @@
+---
+/**
+ * Page shell for proposals: the site's theme and fonts, a theme switch
+ * (remembered across reloads), and the proposals (<Group> / <Option>).
+ */
+import Layout from '../src/layouts/Layout.astro';
+
+const { title, intro } = Astro.props;
+---
+
+<Layout title={`Demo · ${title}`}>
+  <main class="demo">
+    <header class="top">
+      <div>
+        <h1>{title}</h1>
+        <p>{intro}</p>
+      </div>
+      <button class="theme" type="button">switch theme</button>
+    </header>
+    <slot />
+  </main>
+</Layout>
+
+<script>
+  const root = document.documentElement;
+  const KEY = 'demo-theme';
+
+  try {
+    const saved = localStorage.getItem(KEY);
+    if (saved) root.dataset.theme = saved;
+  } catch {}
+
+  document.querySelector('.theme').addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+    try {
+      localStorage.setItem(KEY, root.dataset.theme);
+    } catch {}
+  });
+</script>
+
+<style>
+  .demo {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+    color: var(--primary-text-color);
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    font-family: 'Ubuntu';
+    font-weight: normal;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-family: 'SFMono';
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--primary-border-color);
+  }
+
+  .theme {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    font: 600 14px 'Cantarell';
+    color: var(--primary-text-color);
+    background: var(--tertiary-bg-color);
+    cursor: pointer;
+  }
+</style>
