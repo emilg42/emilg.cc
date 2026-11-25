@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-585 -585 878 1170">
+  <!--
+    "eg" monogram, redrawn as vectors from logo_extended.svg. All shapes share
+    the center (0,0): the "e" arc and the "g" hook are bands between r=438 and
+    r=585, the ring is a band between r=146 and r=293.
+  -->
+  <defs>
+    <linearGradient id="mark-bar" gradientUnits="userSpaceOnUse" x1="-440" y1="0" x2="-200" y2="0">
+      <stop offset="0" stop-color="#3f9aa8" />
+      <stop offset="1" stop-color="#46b098" />
+    </linearGradient>
+    <linearGradient id="mark-e" gradientUnits="userSpaceOnUse" x1="0" y1="-585" x2="0" y2="585">
+      <stop offset="0" stop-color="#35619c" />
+      <stop offset="0.5" stop-color="#3d93a8" />
+      <stop offset="1" stop-color="#42a5ae" />
+    </linearGradient>
+    <linearGradient id="mark-g" gradientUnits="userSpaceOnUse" x1="-293" y1="-293" x2="293" y2="585">
+      <stop offset="0" stop-color="#43b697" />
+      <stop offset="0.5" stop-color="#4dbd90" />
+      <stop offset="1" stop-color="#92cb75" />
+    </linearGradient>
+  </defs>
+  <!-- crossbar of the "e", tucked under the arc and the ring -->
+  <path fill="url(#mark-bar)" d="M-440,-73H-200V73H-440Z" />
+  <!-- "e": arc from the top cut (x=0) around the left to the bottom cut (x=-146) -->
+  <path fill="url(#mark-e)" d="M-47.6,-583.1A585 585 0 0 0 -205.5,547.7A44 44 0 0 0 -146,506.5L-146,443A44 44 0 0 0 -172.7,402.5A438 438 0 0 1 -40,-436.2A44 44 0 0 0 0,-480L0,-539.2A44 44 0 0 0 -47.6,-583.1Z" />
+  <!-- bowl of the "g" -->
+  <path fill="url(#mark-g)" fill-rule="evenodd" d="M293,0A293 293 0 1 0 -293,0A293 293 0 1 0 293,0ZM146,0A146 146 0 1 1 -146,0A146 146 0 1 1 146,0Z" />
+  <!-- stem and hook of the "g", ending at the bottom cut (x=-73) -->
+  <path fill="url(#mark-g)" d="M293,0L293,433A118 118 0 0 1 219.2,542.4A585 585 0 0 1 -31.4,584.2A44 44 0 0 1 -73,540.2L-73,481.1A44 44 0 0 1 -26.4,437.2A438 438 0 0 0 93.8,427.9A66.4 66.4 0 0 0 146,363L146,0Z" />
+</svg>

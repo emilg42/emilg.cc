@@ -1,0 +1,75 @@
+---
+/**
+ * Header logo: the "eg" mark in a faint halo of its own colors, next to the
+ * wordmark with a muted ".cc". Hover turns the mark slightly with a spring.
+ */
+import Mark from '../assets/icons/mark.svg';
+---
+
+<a class="logo" href="/" aria-label="emilg.cc">
+  <span class="badge">
+    <span class="halo"></span>
+    <span class="motion"><Mark /></span>
+  </span>
+  <span class="word">emilg<span class="tld">.cc</span></span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    text-decoration: none;
+  }
+
+  .badge {
+    position: relative;
+    display: grid;
+  }
+
+  /* a gradient, not a CSS filter on the svg (Safari clips those to a box) */
+  .halo {
+    position: absolute;
+    inset: -12px -14px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(62 201 149 / 0.09), rgb(62 201 149 / 0));
+  }
+
+  .motion {
+    display: grid;
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.25));
+    transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+
+  .logo:hover .motion {
+    transform: rotate(-5deg);
+  }
+
+  .motion :global(svg) {
+    height: 34px;
+    width: auto;
+  }
+
+  /* x-height centered on the mark */
+  .word {
+    position: relative;
+    top: -0.107em;
+    font-family: 'Ubuntu';
+    font-size: 22px;
+    line-height: 1;
+    color: var(--primary-text-color);
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+  }
+
+  .tld {
+    color: var(--primary-border-color);
+  }
+
+  :global([data-theme='light']) .motion {
+    filter: drop-shadow(0 1px 2px rgb(54 53 55 / 0.12));
+  }
+
+  :global([data-theme='light']) .word {
+    text-shadow: 0 1px 3px rgb(54 53 55 / 0.12);
+  }
+</style>

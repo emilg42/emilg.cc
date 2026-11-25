@@ -3,7 +3,9 @@
  * Navigation Bar, which allows switching between various pages
  * and sections of the app.
  */
-import Logo from '../assets/icons/logo_extended.svg';
+import Logo from './Logo.astro';
+// alternative logo: "~/emilg.cc" with a retyping cursor — swap it in for the line above
+// import Logo from './PromptLogo.astro';
 import SearchIcon from '../assets/icons/search.svg';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -12,7 +14,7 @@ const pages = ['About', 'Projects', 'Services', 'Blog'];
 
 <div class="wrapper">
   <div class="container">
-    <div class="logo"><Logo /></div>
+    <Logo />
     <nav class="navigation">
       <div class="indicator"></div>
       {pages.map((title) => <span class="button">{title}</span>)}
@@ -61,18 +63,6 @@ const pages = ['About', 'Projects', 'Services', 'Blog'];
     justify-content: space-between;
     width: 83vw;
     height: 50px;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .logo :global(svg) {
-    height: 60px;
-    fill: var(--primary-text-color);
   }
 
   .navigation {
