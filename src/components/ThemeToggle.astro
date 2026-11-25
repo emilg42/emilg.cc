@@ -1,0 +1,88 @@
+---
+/**
+ * Button to toggle between light and dark theme. Animation
+ * consists of moon and sun to indicate the active theme.
+ */
+---
+
+<div class="container">
+  <svg
+    class="toggle"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="transform: rotate(40deg)"
+  >
+    <mask id="mask">
+      <rect x="0" y="0" width="100%" height="100%" fill="white"></rect>
+      <circle class="shadow" cx="12" cy="4" r="9" fill="black"></circle>
+    </mask>
+    <circle class="body" cx="12" cy="12" r="8" mask="url(#mask)"></circle>
+
+    <g class="rays" fill="currentColor" style="opacity: 0">
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </g>
+  </svg>
+</div>
+
+<script>
+  import { spring } from '../lib/spring.js';
+
+  const toggle = document.querySelector('.toggle');
+  const body = toggle.querySelector('.body');
+  const shadow = toggle.querySelector('.shadow');
+  const rays = toggle.querySelector('.rays');
+
+  const config = { mass: 5, tension: 250, friction: 35 };
+
+  // rotation: moon 40deg, sun 90deg (a 'rotate()' string, animated as progress)
+  const rotation = spring(config, [40], ([deg]) => (toggle.style.transform = `rotate(${deg}deg)`), {
+    progress: true,
+  });
+
+  // [body radius, shadow x, shadow y, rays opacity]
+  const moon = [8, 12, 4, 0];
+  const sun = [5, 30, 0, 1];
+  const shape = spring(config, moon, ([r, cx, cy, opacity]) => {
+    body.setAttribute('r', r);
+    shadow.setAttribute('cx', cx);
+    shadow.setAttribute('cy', cy);
+    rays.style.opacity = opacity;
+  });
+
+  toggle.addEventListener('click', () => {
+    const root = document.documentElement;
+    const isDarkTheme = root.dataset.theme !== 'light';
+    root.dataset.theme = isDarkTheme ? 'light' : 'dark';
+    rotation.to([isDarkTheme ? 90 : 40]);
+    shape.to(isDarkTheme ? sun : moon);
+  });
+</script>
+
+<style>
+  .container {
+    display: inline-block;
+    padding: 5px 20px 0 20px;
+  }
+
+  .toggle {
+    stroke: var(--primary-text-color);
+    cursor: pointer;
+  }
+
+  .body {
+    fill: var(--primary-text-color);
+  }
+</style>

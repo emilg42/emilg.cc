@@ -1,0 +1,151 @@
+---
+/**
+ * Animated 'About' section of website.
+ */
+import { Image } from 'astro:assets';
+import memoji from '../assets/m1.png';
+import LinkIcon from '../assets/icons/link.svg';
+---
+
+<div class="wrapper">
+  <div class="content">
+    <div class="container">
+      {/* left section (image) */}
+      <div class="casket end">
+        <Image src={memoji} width={250} height={250} densities={[1, 2]} alt="" />
+      </div>
+
+      {/* right section (typography): multiline typewriter */}
+      <div class="casket">
+        <div class="typewriter">
+          <div class="terminal">
+            <span class="prompt">~ $&nbsp;</span><span class="line"></span>
+          </div>
+          <div class="terminal hidden">
+            <span class="prompt">~ $&nbsp;</span><span class="line"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="overlay">read more <LinkIcon /></p>
+  </div>
+</div>
+
+<script>
+  import Typed from 'typed.js';
+
+  const [first, second] = document.querySelectorAll('.typewriter .terminal');
+
+  // common options
+  const opts = {
+    showCursor: true,
+    cursorChar: '&nbsp;▌',
+  };
+
+  // line 1
+  const t1 = new Typed(first.querySelector('.line'), {
+    strings: ['Hi, my name is Emil &#128075; ^900'],
+    typeSpeed: 50,
+    onComplete: () => {
+      t1.stop();
+      t2.start();
+      first.classList.add('no-cursor');
+      second.classList.remove('hidden');
+    },
+    ...opts,
+  });
+
+  // line 2
+  const t2 = new Typed(second.querySelector('.line'), {
+    strings: ['I develop <i>software.</i>', 'I build <i>things.</i>'],
+    typeSpeed: 90,
+    backSpeed: 30,
+    loop: true,
+    ...opts,
+  });
+  t2.stop();
+</script>
+
+<style>
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .content {
+    position: relative;
+    width: 75%;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 30px;
+    height: 300px;
+    font-size: 30px;
+    font-family: 'Ubuntu';
+    border-radius: 20px;
+    user-select: none;
+    background-color: var(--secondary-bg-color);
+    /* border: 2px solid var(--tertiary-bg-color); */
+    color: var(--primary-text-color);
+  }
+
+  .casket {
+    display: flex;
+    align-items: center;
+  }
+
+  .casket.end {
+    justify-content: flex-end;
+  }
+
+  .casket :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .terminal {
+    margin: 10px 0;
+  }
+
+  .terminal.hidden {
+    visibility: hidden;
+  }
+
+  .terminal :global(.typed-cursor) {
+    color: var(--blend-2-theme-color);
+  }
+
+  .terminal.no-cursor :global(.typed-cursor) {
+    display: none;
+  }
+
+  .line {
+    cursor: default;
+  }
+
+  .prompt {
+    color: var(--blend-2-theme-color);
+  }
+
+  .overlay {
+    position: absolute;
+    right: 25px;
+    bottom: 20px;
+    font-size: 14px;
+    font-family: 'SFMono';
+    color: var(--primary-border-color);
+  }
+
+  .overlay :global(svg) {
+    transform: translateY(3px);
+  }
+
+  .overlay:hover {
+    cursor: pointer;
+    color: var(--blend-3-theme-color);
+  }
+</style>

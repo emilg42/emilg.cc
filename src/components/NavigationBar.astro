@@ -1,0 +1,111 @@
+---
+/**
+ * Navigation Bar, which allows switching between various pages
+ * and sections of the app.
+ */
+import Logo from '../assets/icons/logo_extended.svg';
+import SearchIcon from '../assets/icons/search.svg';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pages = ['About', 'Projects', 'Services', 'Blog'];
+---
+
+<div class="wrapper">
+  <div class="container">
+    <div class="logo"><Logo /></div>
+    <nav class="navigation">
+      <div class="indicator"></div>
+      {pages.map((title) => <span class="button">{title}</span>)}
+      <div class="search"><SearchIcon /></div>
+      <ThemeToggle />
+    </nav>
+  </div>
+</div>
+
+<script>
+  import { spring } from '../lib/spring.js';
+
+  const indicator = document.querySelector('.indicator');
+  const buttons = document.querySelectorAll('.navigation .button');
+
+  // position and size of a button
+  const metrics = (el) => [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight];
+
+  const config = { mass: 2, tension: 300, friction: 35 };
+  const render = ([x, y, w, h]) => {
+    Object.assign(indicator.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
+  };
+  const motion = spring(config, [0, 0, 0, 0], render, { progress: true });
+
+  // initial alignment @ spawn (again once the button font has loaded)
+  const placeOnInitial = () => motion.set(metrics(buttons[0]));
+  placeOnInitial();
+  document.fonts.load('600 1rem Cantarell').then(placeOnInitial);
+
+  // glide back to first button on resize
+  window.addEventListener('resize', () => motion.to(metrics(buttons[0])));
+
+  buttons.forEach((button) => button.addEventListener('mouseenter', () => motion.to(metrics(button))));
+</script>
+
+<style>
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 20px;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 83vw;
+    height: 50px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .logo :global(svg) {
+    height: 60px;
+    fill: var(--primary-text-color);
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .indicator {
+    position: absolute;
+    background-color: var(--tertiary-bg-color);
+    border-radius: 12px;
+    z-index: 1;
+  }
+
+  .button {
+    margin: 0 10px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-family: 'Cantarell';
+    border: none;
+    cursor: pointer;
+    color: var(--primary-text-color);
+    z-index: 2;
+  }
+
+  .search {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 5px 10px 0 10px;
+    color: var(--primary-text-color);
+    cursor: pointer;
+  }
+</style>

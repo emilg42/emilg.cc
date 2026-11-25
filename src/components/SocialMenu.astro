@@ -1,0 +1,64 @@
+---
+/**
+ * List of socials, rendered at the bottom left of the page.
+ */
+import GitHubIcon from '../assets/icons/github.svg';
+import TwitterIcon from '../assets/icons/twitter.svg';
+import InstagramIcon from '../assets/icons/instagram.svg';
+import MailIcon from '../assets/icons/mail.svg';
+
+const socials = [
+  { Icon: GitHubIcon, url: 'https://www.github.com/emilg42' },
+  { Icon: TwitterIcon, url: 'https://twitter.com/emilg42' },
+  { Icon: InstagramIcon, url: 'https://www.instagram.com/emil.g42' },
+  { Icon: MailIcon, url: 'mailto:contact@emilg.cc' },
+];
+---
+
+<div class="container">
+  {/* Buttons */}
+  {socials.map(({ Icon, url }) => (
+    <a href={url} target="_blank">
+      <div class="button"><Icon /></div>
+    </a>
+  ))}
+
+  {/* Vertical Line */}
+  <div class="divider"></div>
+</div>
+
+<style>
+  .container {
+    position: fixed;
+    bottom: 0;
+    left: 30px;
+    width: 40px;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+    color: var(--primary-border-color);
+    transition: 0.2s ease-in;
+  }
+
+  .button:hover {
+    cursor: pointer;
+    color: var(--blend-3-theme-color);
+    transform: translateY(-3px);
+  }
+
+  .divider {
+    display: inline-block;
+    width: 2px;
+    height: 100px;
+    margin: 12px 0 12px;
+    border-radius: 20px;
+    background-color: var(--primary-border-color);
+  }
+</style>

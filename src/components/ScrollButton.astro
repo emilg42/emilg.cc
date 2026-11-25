@@ -1,0 +1,35 @@
+---
+/**
+ * SVG Button, which scrolls back to the page header.
+ */
+import ArrowIcon from '../assets/icons/arrow.svg';
+---
+
+<div class="scroll-button" hidden><ArrowIcon /></div>
+
+<script>
+  const THRESHOLD = 100;
+  const button = document.querySelector('.scroll-button');
+
+  const updateScroll = () => (button.hidden = window.scrollY < THRESHOLD);
+  updateScroll();
+  window.addEventListener('scroll', updateScroll);
+
+  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+<style>
+  .scroll-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: var(--primary-border-color);
+    transition: 0.2s ease-in;
+  }
+
+  .scroll-button:hover {
+    cursor: pointer;
+    color: var(--blend-3-theme-color);
+    transform: translateY(-3px);
+  }
+</style>

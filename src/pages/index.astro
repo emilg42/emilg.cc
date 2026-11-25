@@ -1,0 +1,58 @@
+---
+/**
+ * Landing page of website. Layout consists of 4 functional sections:
+ *  I. Header (independent)
+ *  II. Content (max width)
+ *  III. Footer (independent)
+ *  IV. <individual components> (ind. width and pos.)
+ */
+import Layout from '../layouts/Layout.astro';
+import NavigationBar from '../components/NavigationBar.astro';
+import Featured from '../components/Featured.astro';
+// import About from '../components/About.astro';
+import PageDivider from '../components/PageDivider.astro';
+import Footer from '../components/Footer.astro';
+import SocialMenu from '../components/SocialMenu.astro';
+import ScrollButton from '../components/ScrollButton.astro';
+---
+
+<Layout title="Home">
+  {/* I. Header */}
+  <NavigationBar />
+
+  {/* II. Content */}
+  <div class="wrapper">
+    <div class="content">
+      <Featured />
+      {/* <About /> */}
+      <div style="width: 100%; height: 1000px"></div>
+    </div>
+
+    {/* Waves */}
+    <PageDivider pos="top" />
+    <PageDivider pos="bottom" />
+  </div>
+
+  {/* III. Footer */}
+  <Footer />
+
+  {/* IV. Individual */}
+  <SocialMenu />
+  <ScrollButton />
+</Layout>
+
+<style>
+  .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: var(--primary-bg-color);
+    margin: 0;
+  }
+
+  .content {
+    width: 80vw;
+    margin: 100px 0;
+  }
+</style>
