@@ -20,6 +20,17 @@ const { title } = Astro.props;
     <meta name="theme-color" content="#ffffff" />
 
     {/* open graph ... */}
+
+    {/* visitor stats: Umami (cookieless, no banner), built site on emilg.cc only */}
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="7a841f0c-eda8-4a11-95c1-84ab6d0eded0"
+        data-domains="emilg.cc"
+      ></script>
+    )}
   </head>
   <body>
     <slot />

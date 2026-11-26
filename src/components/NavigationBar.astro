@@ -17,8 +17,8 @@ const pages = ['About', 'Projects', 'Services', 'Blog'];
     <Logo />
     <nav class="navigation">
       <div class="indicator"></div>
-      {pages.map((title) => <span class="button">{title}</span>)}
-      <div class="search"><SearchIcon /></div>
+      {pages.map((title) => <span class="button" data-umami-event="nav-click" data-umami-event-item={title}>{title}</span>)}
+      <div class="search" data-umami-event="search-click"><SearchIcon /></div>
       <ThemeToggle />
     </nav>
   </div>

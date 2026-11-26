@@ -8,17 +8,17 @@ import InstagramIcon from '../assets/icons/instagram.svg';
 import MailIcon from '../assets/icons/mail.svg';
 
 const socials = [
-  { Icon: GitHubIcon, url: 'https://www.github.com/emilg42' },
-  { Icon: TwitterIcon, url: 'https://twitter.com/emilg42' },
-  { Icon: InstagramIcon, url: 'https://www.instagram.com/emil.g42' },
-  { Icon: MailIcon, url: 'mailto:contact@emilg.cc' },
+  { Icon: GitHubIcon, name: 'github', url: 'https://www.github.com/emilg42' },
+  { Icon: TwitterIcon, name: 'twitter', url: 'https://twitter.com/emilg42' },
+  { Icon: InstagramIcon, name: 'instagram', url: 'https://www.instagram.com/emil.g42' },
+  { Icon: MailIcon, name: 'mail', url: 'mailto:contact@emilg.cc' },
 ];
 ---
 
 <div class="container">
   {/* Buttons */}
-  {socials.map(({ Icon, url }) => (
-    <a href={url} target="_blank">
+  {socials.map(({ Icon, name, url }) => (
+    <a href={url} target="_blank" data-umami-event="social-click" data-umami-event-network={name}>
       <div class="button"><Icon /></div>
     </a>
   ))}

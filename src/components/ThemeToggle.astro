@@ -66,6 +66,7 @@
     const root = document.documentElement;
     const isDarkTheme = root.dataset.theme !== 'light';
     root.dataset.theme = isDarkTheme ? 'light' : 'dark';
+    window.umami?.track('theme-switch', { theme: root.dataset.theme });
     rotation.to([isDarkTheme ? 90 : 40]);
     shape.to(isDarkTheme ? sun : moon);
   });
