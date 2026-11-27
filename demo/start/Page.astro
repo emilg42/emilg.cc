@@ -1,0 +1,371 @@
+---
+/**
+ * Shell of a start page version: the site layout with the new header, base
+ * typography (Space Grotesk headings, system body text), smooth scrolling,
+ * fade-in on scroll and shared building blocks (.wrap, .btn, .card, …).
+ *   version: adds the demo's switcher
+ *   hovers:  hover options for the photo's dots the switcher picks from (live)
+ *   bare:    just the content, without header, footer and side links
+ */
+import Layout from '../../src/layouts/Layout.astro';
+import Footer from '../../src/components/Footer.astro';
+import SocialMenu from '../../src/components/SocialMenu.astro';
+import ScrollButton from '../../src/components/ScrollButton.astro';
+import Header from './Header.astro';
+
+const { version, hovers, bare = false, title = 'Home' } = Astro.props;
+---
+
+<Layout title={title}>
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    // demo: previews on the overview page are framed, hide the switcher there
+    if (self !== top) document.documentElement.classList.add('framed');
+  </script>
+  {!bare && <Header />}
+  <main>
+    <slot />
+  </main>
+  {
+    !bare && (
+      <>
+        <Footer />
+        <div class="socials">
+          <SocialMenu />
+        </div>
+        <ScrollButton />
+      </>
+    )
+  }
+
+  {
+    version && (
+      <nav class="switcher" aria-label="Versions">
+        {hovers ? (
+          <>
+            <span class="label">hover</span>
+            {hovers.map((option, i) => (
+              <button type="button" data-pick={option.id} title={option.name} class:list={{ current: i === 0 }}>
+                {i + 1}
+              </button>
+            ))}
+            <span class="label name">{hovers[0].name}</span>
+          </>
+        ) : (
+          <a href="/v1a" class:list={{ current: version === '1a' }}>1a</a>
+        )}
+        <a href="/neofetch" class:list={{ current: version === 'neofetch' }}>neofetch</a>
+        <a href="/">overview</a>
+      </nav>
+    )
+  }
+</Layout>
+
+<script>
+  import './typewriter.js';
+
+  // fade elements in as they scroll into view
+  const reveal = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        reveal.unobserve(entry.target);
+      }),
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+  document.querySelectorAll('[data-reveal]').forEach((el) => reveal.observe(el));
+
+  // demo: switch the photo's hover option live, remembered in the address (?hover=…)
+  const picks = [...document.querySelectorAll('.switcher [data-pick]')];
+  if (picks.length) {
+    const name = document.querySelector('.switcher .name');
+    const pick = (id) => {
+      document.querySelectorAll('.portrait[data-hover]').forEach((photo) => (photo.dataset.hover = id));
+      picks.forEach((button) => button.classList.toggle('current', button.dataset.pick === id));
+      name.textContent = picks.find((button) => button.dataset.pick === id).title;
+    };
+    const start = new URLSearchParams(location.search).get('hover');
+    if (picks.some((button) => button.dataset.pick === start)) pick(start);
+    picks.forEach((button) =>
+      button.addEventListener('click', () => {
+        pick(button.dataset.pick);
+        history.replaceState(null, '', `?hover=${button.dataset.pick}`);
+      }),
+    );
+  }
+</script>
+
+<style is:global>
+  @font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/SpaceGrotesk.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+  }
+
+  :root {
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'SFMono', ui-monospace, Menlo, monospace;
+    --header-h: 72px;
+    --header-bg: rgb(29 30 37 / 0.78);
+    --line: rgb(136 146 176 / 0.16);
+    --card: rgb(255 255 255 / 0.03);
+    --muted: color-mix(in srgb, var(--primary-text-color) 66%, var(--secondary-bg-color));
+    --gradient: linear-gradient(90deg, #3d8fb0, #41a7a8 35%, #46bb93 65%, #8fcb76);
+  }
+
+  :root[data-theme='light'] {
+    --header-bg: rgb(242 237 237 / 0.82);
+    --line: rgb(54 53 55 / 0.1);
+    --card: rgb(255 255 255 / 0.75);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 12px);
+    scrollbar-width: thin;
+    scrollbar-color: rgb(136 146 176 / 0.35) transparent;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--primary-text-color);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  ::selection {
+    background: rgb(65 160 174 / 0.35);
+  }
+
+  /* building blocks */
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 clamp(24px, 7vw, 96px);
+    box-sizing: content-box;
+  }
+
+  .section {
+    position: relative;
+    padding: 120px 0;
+  }
+
+  .band {
+    padding: 160px 0;
+    background: var(--primary-bg-color);
+  }
+
+  .eyebrow {
+    margin-bottom: 14px;
+    font: 13px var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--blend-3-theme-color);
+  }
+
+  .gradient {
+    color: transparent;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.07em;
+    height: 0.82em;
+    margin-left: 0.06em;
+    vertical-align: -0.04em;
+    border-radius: 2px;
+    background: #8fcb76;
+    animation: caret 1s steps(1) infinite;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font: 600 16px var(--font-display);
+    color: var(--primary-text-color);
+    text-decoration: none;
+    transition:
+      transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1),
+      border-color 0.2s,
+      box-shadow 0.25s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--blend-3-theme-color);
+  }
+
+  .btn.primary {
+    border-color: transparent;
+    color: #0f1a17;
+    background: var(--gradient);
+  }
+
+  .btn.primary:hover {
+    box-shadow: 0 10px 30px -10px rgb(62 201 149 / 0.6);
+  }
+
+  /* calmer buttons: solid in the text color, and an outline */
+  .btn.solid {
+    border-color: transparent;
+    color: var(--secondary-bg-color);
+    background: var(--primary-text-color);
+  }
+
+  .btn.solid:hover {
+    box-shadow: 0 12px 28px -14px rgb(0 0 0 / 0.7);
+  }
+
+  .btn.ghost:hover {
+    border-color: color-mix(in srgb, var(--primary-text-color) 45%, transparent);
+  }
+
+  .btn .icon {
+    transition: transform 0.25s;
+  }
+
+  .btn:hover .icon {
+    transform: translateX(3px);
+  }
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--card);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .tags li {
+    padding: 5px 11px;
+    border-radius: 999px;
+    font: 12.5px var(--font-mono);
+    color: var(--blend-3-theme-color);
+    background: rgb(65 160 174 / 0.12);
+  }
+
+  /* fade in on scroll (only with JavaScript, so content never stays hidden) */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: var(--d, 0s);
+  }
+
+  .js [data-reveal].in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .js [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .caret {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .socials {
+      display: none;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .band {
+      padding: 120px 0;
+    }
+  }
+
+  /* demo only: version switcher */
+  .switcher {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    z-index: 60;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: translateX(-50%);
+  }
+
+  .switcher a,
+  .switcher button,
+  .switcher .label {
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 999px;
+    font: 12px var(--font-mono);
+    color: var(--primary-text-color);
+    text-decoration: none;
+    background: none;
+  }
+
+  .switcher button {
+    cursor: pointer;
+  }
+
+  .switcher .label {
+    color: var(--muted);
+  }
+
+  .switcher .name {
+    min-width: 7.5em;
+    color: var(--blend-3-theme-color);
+  }
+
+  .switcher a.current,
+  .switcher button.current {
+    color: #0f1a17;
+    background: var(--gradient);
+  }
+
+  .framed .switcher {
+    display: none;
+  }
+</style>

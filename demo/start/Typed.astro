@@ -1,0 +1,38 @@
+---
+/**
+ * A typewriter line that never moves the page: an invisible copy of the
+ * longest line holds the space (at any width), the typed text sits on top.
+ *   lines:    one line is typed once, several are cycled (typewriter.js)
+ *   gradient: fill the text with the brand gradient
+ */
+const { lines, gradient = false, class: className } = Astro.props;
+const longest = lines.reduce((a, b) => (b.length > a.length ? b : a));
+---
+
+<span class:list={['typed', className]}>
+  <span class="ghost" aria-hidden="true">{longest}<span class="caret"></span></span>
+  <span class="live">
+    <span class:list={['text', { gradient, pending: lines.length === 1 }]} data-typed={JSON.stringify(lines)}>{lines[0]}</span><span class="caret"></span>
+  </span>
+</span>
+
+<style>
+  .typed {
+    position: relative;
+    display: block;
+  }
+
+  .ghost {
+    visibility: hidden;
+  }
+
+  .live {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* hidden until the typewriter clears it, so the full line never flashes */
+  :global(.js) .pending {
+    visibility: hidden;
+  }
+</style>

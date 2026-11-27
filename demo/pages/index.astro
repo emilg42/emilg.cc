@@ -1,8 +1,103 @@
 ---
 import Demo from '../Demo.astro';
+import Portrait from '../start/Portrait.astro';
+import { dotHovers } from '../start/content.js';
 ---
 
 <Demo
-  title="Nothing to compare"
-  intro="No open proposals right now. Ask Claude for options and they show up here side by side."
-/>
+  title="Start page 1a · dot field, hover options"
+  intro="Hover each photo. In all of them only the photo lifts a little; 1 keeps the dots still, 2–4 move them, all subtle. “open in page” shows it in 1a, where the switcher at the bottom flips between them."
+>
+  <div class="options">
+    {dotHovers.map((option, i) => (
+      <section class="option">
+        <div class="label">
+          <span class="n">{i + 1}</span>
+          <h2>{option.name}</h2>
+          <a class="open" href={`/v1a?hover=${option.id}`}>open in page →</a>
+        </div>
+        <p>{option.text}</p>
+        <div class="stage">
+          <Portrait hover={option.id} />
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <p class="also">Also: the <a href="/neofetch">neofetch page</a>, just for fun.</p>
+</Demo>
+
+<style>
+  .options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
+    gap: 40px 28px;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .n {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font: 600 14px 'Cantarell';
+    color: var(--primary-bg-color);
+    background: var(--blend-3-theme-color);
+  }
+
+  h2 {
+    font-family: 'Ubuntu';
+    font-weight: normal;
+    font-size: 20px;
+    color: var(--primary-text-color);
+  }
+
+  .open {
+    margin-left: auto;
+    font: 13px 'SFMono';
+    color: var(--blend-3-theme-color);
+    text-decoration: none;
+  }
+
+  p {
+    min-height: 40px;
+    margin: 10px 0 16px;
+    font: 13px/20px 'SFMono';
+    color: var(--primary-border-color);
+  }
+
+  /* the page background around the photo, with room for the whole dot field */
+  .stage {
+    display: grid;
+    place-items: center;
+    padding: 130px 48px;
+    overflow: hidden;
+    border: 1px solid rgb(136 146 176 / 0.2);
+    border-radius: 14px;
+  }
+
+  .also {
+    min-height: 0;
+    margin-top: 40px;
+  }
+
+  .also a {
+    color: var(--blend-3-theme-color);
+  }
+
+  @media (max-width: 700px) {
+    .options {
+      grid-template-columns: 1fr;
+    }
+
+    .stage {
+      padding: 90px 16px;
+    }
+  }
+</style>

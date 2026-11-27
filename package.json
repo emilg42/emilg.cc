@@ -10,7 +10,6 @@
     "demo": "astro dev --root demo --open"
   },
   "dependencies": {
-    "astro": "^7.4.2",
-    "typed.js": "^2.0.12"
+    "astro": "^7.4.2"
   }
 }

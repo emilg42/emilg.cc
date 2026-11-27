@@ -1,58 +1,135 @@
 ---
 /**
- * Landing page of website. Layout consists of 4 functional sections:
- *  I. Header (independent)
- *  II. Content (max width)
- *  III. Footer (independent)
- *  IV. <individual components> (ind. width and pos.)
+ * Start page: the whoami hero with the photo, then about, projects, skills and
+ * contact. The header links scroll to the sections.
  */
 import Layout from '../layouts/Layout.astro';
-import NavigationBar from '../components/NavigationBar.astro';
-import Featured from '../components/Featured.astro';
-// import About from '../components/About.astro';
-import PageDivider from '../components/PageDivider.astro';
+import Header from '../components/Header.astro';
+import Typed from '../components/Typed.astro';
+import Icon from '../components/Icon.astro';
+import Portrait from '../components/Portrait.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import Skills from '../components/Skills.astro';
+import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import SocialMenu from '../components/SocialMenu.astro';
 import ScrollButton from '../components/ScrollButton.astro';
+import { tagline, lead } from '../content.js';
 ---
 
 <Layout title="Home">
-  {/* I. Header */}
-  <NavigationBar />
+  <Header />
+  <main>
+    <section class="hero">
+      <div class="wrap grid">
+        <div class="intro">
+          <p class="prompt" data-reveal><span>~ $</span> whoami</p>
+          <h1 data-reveal style="--d: 0.08s">Hi, I'm Emil.<Typed text={tagline} gradient class="line" /></h1>
+          <p class="lead" data-reveal style="--d: 0.16s">{lead}</p>
+          <div class="buttons" data-reveal style="--d: 0.24s">
+            <a class="btn solid" href="#projects">View my work <Icon name="arrow-right" /></a>
+            <a class="btn ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="photo" data-reveal style="--d: 0.2s">
+          <Portrait />
+        </div>
+      </div>
+    </section>
 
-  {/* II. Content */}
-  <div class="wrapper">
-    <div class="content">
-      <Featured />
-      {/* <About /> */}
-      <div style="width: 100%; height: 1000px"></div>
-    </div>
-
-    {/* Waves */}
-    <PageDivider pos="top" />
-    <PageDivider pos="bottom" />
-  </div>
-
-  {/* III. Footer */}
+    <About />
+    <Projects />
+    <Skills />
+    <Contact />
+  </main>
   <Footer />
-
-  {/* IV. Individual */}
-  <SocialMenu />
+  <div class="socials">
+    <SocialMenu />
+  </div>
   <ScrollButton />
 </Layout>
 
 <style>
-  .wrapper {
+  .hero {
     position: relative;
     display: flex;
-    justify-content: center;
-    width: 100vw;
-    background-color: var(--primary-bg-color);
-    margin: 0;
+    align-items: center;
+    min-height: 100vh;
+    padding: calc(var(--header-h) + 40px) 0 80px;
+    overflow: hidden;
   }
 
-  .content {
-    width: 80vw;
-    margin: 100px 0;
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(480px circle at 12% 85%, rgb(54 102 156 / 0.08), transparent 65%);
+    pointer-events: none;
+  }
+
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 72px;
+  }
+
+  .prompt {
+    margin-bottom: 22px;
+    font: 15px var(--font-mono);
+    color: var(--muted);
+  }
+
+  .prompt span {
+    color: var(--blend-2-theme-color);
+  }
+
+  h1 {
+    font-size: clamp(40px, 5.4vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  h1 :global(.line) {
+    margin-top: 6px;
+    font-size: 0.72em;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    max-width: 30em;
+    margin-top: 26px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    /* room for the dots below the photo */
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 64px;
+    }
+
+    .photo {
+      order: -1;
+    }
+  }
+
+  /* the side links would crowd small screens; contact has mail and GitHub */
+  @media (max-width: 760px) {
+    .socials {
+      display: none;
+    }
   }
 </style>

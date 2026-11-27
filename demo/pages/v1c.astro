@@ -1,0 +1,208 @@
+---
+/**
+ * Start page 1c · offset: demo 1's split hero on a faint dotted grid, a
+ * smaller photo resting on a patch of dots, a mono outline button, and a teal
+ * 01. in front of each project name.
+ */
+import { Image } from 'astro:assets';
+import Page from '../start/Page.astro';
+import Typed from '../start/Typed.astro';
+import Icon from '../start/Icon.astro';
+import About from '../start/About.astro';
+import ProjectRows from '../start/ProjectRows.astro';
+import Skills from '../start/Skills.astro';
+import Contact from '../start/Contact.astro';
+import photo from '../../src/assets/photo.png';
+import { tagline, lead } from '../start/content.js';
+---
+
+<Page version="1c">
+  <section class="hero">
+    <div class="wrap grid">
+      <div class="intro">
+        <p class="prompt" data-reveal><span>~ $</span> whoami</p>
+        <h1 data-reveal style="--d: 0.08s">Hi, I'm Emil.<Typed lines={[tagline]} gradient class="line" /></h1>
+        <p class="lead" data-reveal style="--d: 0.16s">{lead}</p>
+        <div class="buttons" data-reveal style="--d: 0.24s">
+          <a class="btn outline" href="#projects">View my work</a>
+          <a class="link" href="#contact">Get in touch <Icon name="arrow-right" size={16} /></a>
+        </div>
+      </div>
+      <figure class="portrait" data-reveal style="--d: 0.2s">
+        <Image src={photo} alt="Portrait of Emil" widths={[320, 640]} sizes="320px" loading="eager" />
+      </figure>
+    </div>
+  </section>
+
+  <About />
+  <ProjectRows numbers="label" />
+  <Skills />
+  <Contact />
+</Page>
+
+<style>
+  .hero {
+    --dot: rgb(136 146 176 / 0.2);
+    --patch: rgb(65 160 174 / 0.55);
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    padding: calc(var(--header-h) + 40px) 0 80px;
+    overflow: hidden;
+  }
+
+  :global([data-theme='light']) .hero {
+    --dot: rgb(54 53 55 / 0.14);
+    --patch: rgb(65 160 174 / 0.7);
+  }
+
+  /* faint dotted grid, strongest around the photo */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 45% 60% at 72% 50%, black 15%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 45% 60% at 72% 50%, black 15%, transparent 75%);
+    pointer-events: none;
+  }
+
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 80px;
+  }
+
+  .prompt {
+    margin-bottom: 22px;
+    font: 15px var(--font-mono);
+    color: var(--muted);
+  }
+
+  .prompt span {
+    color: var(--blend-2-theme-color);
+  }
+
+  h1 {
+    font-size: clamp(40px, 5.4vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  h1 :global(.line) {
+    margin-top: 6px;
+    font-size: 0.72em;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    max-width: 30em;
+    margin-top: 26px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 30px;
+    margin-top: 40px;
+  }
+
+  /* mono outline button: on hover it lifts off its own shadow */
+  .btn.outline {
+    padding: 14px 22px;
+    border-color: var(--blend-3-theme-color);
+    border-radius: 8px;
+    font: 500 15px var(--font-mono);
+    color: var(--blend-3-theme-color);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      background-color 0.2s;
+  }
+
+  .btn.outline:hover {
+    background: rgb(65 160 174 / 0.08);
+    box-shadow: 4px 4px 0 var(--blend-3-theme-color);
+    transform: translate(-4px, -4px);
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font: 600 16px var(--font-display);
+    color: var(--primary-text-color);
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.3s;
+  }
+
+  .link:hover {
+    background-size: 100% 1px;
+  }
+
+  .link :global(.icon) {
+    transition: transform 0.25s;
+  }
+
+  .link:hover :global(.icon) {
+    transform: translateX(3px);
+  }
+
+  /* smaller photo on a patch of dots; on hover it lifts off the dots */
+  .portrait {
+    position: relative;
+    isolation: isolate;
+    width: min(320px, 28vw);
+    margin: 0 24px 24px 0;
+  }
+
+  .portrait::before {
+    content: '';
+    position: absolute;
+    inset: 24px -24px -24px 24px;
+    z-index: -1;
+    background-image: radial-gradient(var(--patch) 1.3px, transparent 1.8px);
+    background-size: 12px 12px;
+  }
+
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.65);
+    transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+
+  .portrait:hover :global(img) {
+    transform: translate(-6px, -6px);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .portrait {
+      order: -1;
+      width: min(260px, 64vw);
+    }
+
+    .hero::before {
+      mask-image: radial-gradient(ellipse 70% 40% at 40% 30%, black 15%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 40% at 40% 30%, black 15%, transparent 75%);
+    }
+  }
+</style>

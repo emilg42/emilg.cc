@@ -3,7 +3,7 @@
  * One proposal card: number, name, hover hint, and the candidate at real
  * size in a copy of the site header. Extra props are passed to the candidate.
  */
-import PageDivider from '../src/components/PageDivider.astro';
+import Wave from '../src/components/Wave.astro';
 
 const { n, name, hint, logo: Logo, ...props } = Astro.props;
 ---
@@ -23,7 +23,7 @@ const { n, name, hint, logo: Logo, ...props } = Astro.props;
         <span>Blog</span>
       </nav>
     </div>
-    <div class="body"><PageDivider pos="top" /></div>
+    <div class="body"><Wave pos="top" /></div>
   </div>
 </section>
 

@@ -1,0 +1,438 @@
+---
+/**
+ * Start page, version 1 · classic: big headline with the typewriter next to
+ * the photo, short sections with numbered project rows.
+ */
+import { Image } from 'astro:assets';
+import Page from '../start/Page.astro';
+import Wave from '../start/Wave.astro';
+import Art from '../start/Art.astro';
+import Icon from '../start/Icon.astro';
+import photo from '../../src/assets/photo.png';
+import { typed, lead, about, contact, highlights, projects, skills, links } from '../start/content.js';
+---
+
+<Page version="1">
+  <section class="hero">
+    <div class="wrap grid">
+      <div class="intro">
+        <p class="prompt" data-reveal><span>~ $</span> whoami</p>
+        <h1 data-reveal style="--d: 0.08s">
+          Hi, I'm Emil.
+          <span class="typed"><span class="gradient" data-typed={JSON.stringify(typed)}>{typed[0]}</span><span class="caret"></span></span>
+        </h1>
+        <p class="lead" data-reveal style="--d: 0.16s">{lead}</p>
+        <div class="buttons" data-reveal style="--d: 0.24s">
+          <a class="btn primary" href="#projects">View my work <Icon name="arrow-down" /></a>
+          <a class="btn" href="#contact">Contact me</a>
+        </div>
+      </div>
+      <div class="portrait" data-reveal style="--d: 0.2s">
+        <Image src={photo} alt="Portrait of Emil" widths={[440, 880]} sizes="440px" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section band">
+    <Wave pos="top" />
+    <Wave pos="bottom" />
+    <div class="wrap about">
+      <div data-reveal>
+        <p class="eyebrow">01 · about</p>
+        <h2>Small tools,<br /><span class="gradient">real-world software.</span></h2>
+        <p class="text">{about}</p>
+      </div>
+      <ul class="highlights">
+        {highlights.map((item, i) => (
+          <li class="card" data-reveal style={`--d: ${i * 0.06}s`}>
+            <span class="tile"><Icon name={item.icon} /></span>
+            <strong>{item.title}</strong>
+            <span>{item.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="wrap">
+      <div class="heading center" data-reveal>
+        <p class="eyebrow">02 · projects</p>
+        <h2>Things I've built</h2>
+      </div>
+      {projects.map((project, i) => (
+        <article class:list={['project', { flip: i % 2 }]} data-reveal>
+          <a class="shot card" href={project.url} aria-label={`${project.name} on GitHub`}>
+            <Art kind={project.art} />
+          </a>
+          <div class="info">
+            <span class="number">{String(i + 1).padStart(2, '0')}</span>
+            <p class="meta">
+              {project.lang} · <Icon name="star" size={13} /> {project.stars}
+            </p>
+            <h3>
+              <a href={project.url}>{project.name}</a>
+            </h3>
+            <p class="text">{project.text}</p>
+            <ul class="tags">{project.tags.map((tag) => <li>{tag}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+      <p class="more" data-reveal>
+        <a href={links.github}>More on GitHub <Icon name="arrow-right" size={16} /></a>
+      </p>
+    </div>
+  </section>
+
+  <section id="skills" class="section band">
+    <Wave pos="top" />
+    <Wave pos="bottom" />
+    <div class="wrap">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">03 · skills</p>
+        <h2>Tools I use</h2>
+      </div>
+      <ul class="skills">
+        {skills.map((skill, i) => (
+          <li class="card" data-reveal style={`--d: ${(i % 4) * 0.05}s`}>
+            <strong>{skill.name}</strong>
+            <span>{skill.note}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="wrap center" data-reveal>
+      <p class="eyebrow">04 · contact</p>
+      <h2>Let's talk.</h2>
+      <p class="text">{contact}</p>
+      <div class="contact card">
+        <a href={`mailto:${links.mail}`}>
+          <span class="tile"><Icon name="mail" /></span>
+          <span><small>Email</small>{links.mail}</span>
+          <Icon name="arrow-up-right" />
+        </a>
+        <a href={links.github}>
+          <span class="tile"><Icon name="github" /></span>
+          <span><small>GitHub</small>emilg42</span>
+          <Icon name="arrow-up-right" />
+        </a>
+      </div>
+      <a class="btn primary" href={`mailto:${links.mail}`}>Say hello <Icon name="arrow-right" /></a>
+    </div>
+  </section>
+</Page>
+
+<style>
+  /* hero */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    padding: calc(var(--header-h) + 40px) 0 80px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(560px circle at 78% 42%, rgb(65 160 174 / 0.12), transparent 65%),
+      radial-gradient(480px circle at 12% 85%, rgb(54 102 156 / 0.1), transparent 65%);
+    pointer-events: none;
+  }
+
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .prompt {
+    margin-bottom: 22px;
+    font: 15px var(--font-mono);
+    color: var(--muted);
+  }
+
+  .prompt span {
+    color: var(--blend-2-theme-color);
+  }
+
+  h1 {
+    font-size: clamp(36px, 5.4vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  /* the typed line wraps on phones: keep two lines of room so typing never moves the page */
+  .typed {
+    display: block;
+  }
+
+  @media (max-width: 560px) {
+    .typed {
+      min-height: 2.08em;
+    }
+  }
+
+  .lead {
+    max-width: 30em;
+    margin-top: 28px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+
+  .portrait {
+    width: min(400px, 34vw);
+    padding: 3px;
+    border-radius: 30px;
+    background: var(--gradient);
+    box-shadow:
+      0 40px 80px -30px rgb(0 0 0 / 0.55),
+      0 0 90px -25px rgb(65 160 174 / 0.45);
+    transform: rotate(2deg);
+    transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+
+  .portrait:hover {
+    transform: rotate(0deg) scale(1.01);
+  }
+
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 27px;
+  }
+
+  /* shared section text */
+  h2 {
+    font-size: clamp(34px, 4vw, 50px);
+  }
+
+  .text {
+    max-width: 34em;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .center .text {
+    margin-inline: auto;
+  }
+
+  .heading {
+    margin-bottom: 56px;
+  }
+
+  /* about */
+  .about {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    list-style: none;
+  }
+
+  .highlights li {
+    display: grid;
+    gap: 4px;
+    padding: 22px;
+  }
+
+  .tile {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    color: var(--blend-3-theme-color);
+    background: rgb(65 160 174 / 0.12);
+  }
+
+  .highlights strong,
+  .skills strong {
+    font: 600 17px var(--font-display);
+  }
+
+  .highlights span:last-child,
+  .skills span {
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  /* projects */
+  .project {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    align-items: center;
+    gap: 56px;
+    margin-bottom: 96px;
+  }
+
+  .project.flip .shot {
+    order: 2;
+  }
+
+  .shot {
+    display: block;
+    overflow: hidden;
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1),
+      box-shadow 0.3s;
+  }
+
+  .shot:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgb(65 160 174 / 0.5);
+  }
+
+  .number {
+    font: 700 56px/1 var(--font-display);
+    color: var(--tertiary-bg-color);
+    -webkit-text-stroke: 1px var(--line);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 18px 0 8px;
+    font: 13px var(--font-mono);
+    color: var(--blend-3-theme-color);
+  }
+
+  h3 {
+    font-size: 34px;
+  }
+
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .project .text {
+    margin: 12px 0 22px;
+  }
+
+  .more {
+    text-align: center;
+  }
+
+  .more a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 16px var(--font-display);
+    color: var(--blend-3-theme-color);
+    text-decoration: none;
+  }
+
+  /* skills */
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    list-style: none;
+  }
+
+  .skills li {
+    display: grid;
+    gap: 4px;
+    padding: 22px 24px;
+  }
+
+  /* contact */
+  #contact .wrap {
+    max-width: 640px;
+  }
+
+  .contact {
+    display: grid;
+    margin: 44px 0 36px;
+    text-align: left;
+  }
+
+  .contact a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .contact a + a {
+    border-top: 1px solid var(--line);
+  }
+
+  .contact a:hover {
+    background: rgb(65 160 174 / 0.06);
+  }
+
+  .contact .tile {
+    margin: 0;
+  }
+
+  .contact small {
+    display: block;
+    font: 12px var(--font-mono);
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .grid,
+    .about,
+    .project {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .portrait {
+      width: min(340px, 80vw);
+      order: -1;
+    }
+
+    .project.flip .shot {
+      order: 0;
+    }
+
+    .skills {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

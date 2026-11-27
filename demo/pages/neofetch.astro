@@ -1,0 +1,296 @@
+---
+/**
+ * Just for fun, not linked from the start page: a terminal that types
+ * `neofetch` and prints the "eg" mark as ASCII next to a few facts.
+ */
+import Page from '../start/Page.astro';
+import { ascii } from '../start/ascii.js';
+
+const info = [
+  ['OS', 'Linux'],
+  ['WM', 'dwm (own build)'],
+  ['Menu', 'dmenu (own build)'],
+  ['Editor', 'Vim'],
+  ['Langs', 'C, Python, C++, JavaScript'],
+  ['Tools', 'Git, Astro'],
+];
+
+const blocks = ['#36669c', '#41a0ae', '#3ec995', '#8fcb76', '#8892b0', '#f5f6ef'];
+
+// colors of the mark, top to bottom: the "e" runs from blue to teal, the "g" from green to lime
+const mix = (a, b, t) => {
+  const channel = (hex, i) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16);
+  const value = (i) => Math.round(channel(a, i) + (channel(b, i) - channel(a, i)) * t);
+  return `rgb(${value(0)} ${value(1)} ${value(2)})`;
+};
+
+const art = ascii
+  .map(([text, parts], row) => {
+    const t = row / (ascii.length - 1);
+    const color = { e: mix('#35619c', '#42a5ae', t), g: mix('#43b697', '#92cb75', t) };
+    let html = '';
+    let run = '';
+    let part = null;
+    const flush = () => {
+      if (run) html += color[part] ? `<span style="color: ${color[part]}">${run}</span>` : run;
+      run = '';
+    };
+    [...text].forEach((char, i) => {
+      const next = char === ' ' ? ' ' : (parts[i] ?? ' ');
+      if (next !== part) flush();
+      part = next;
+      run += char;
+    });
+    flush();
+    return html;
+  })
+  .join('\n');
+---
+
+<Page version="neofetch" title="neofetch" bare>
+  <section class="page">
+    <div class="window" data-reveal>
+      <div class="titlebar"><i></i><i></i><i></i><span>emil@emilg.cc: ~</span></div>
+      <div class="screen">
+        <p>
+          <span class="ps">~ $</span> <span class="cmd pending" data-typed={JSON.stringify(['neofetch'])}>neofetch</span><span class="cursor typing"></span>
+        </p>
+        <div class="output">
+          <pre class="art" aria-hidden="true" set:html={art} />
+          <div class="info">
+            <p class="host"><span>emil</span>@<span>emilg.cc</span></p>
+            <p class="rule">-------------</p>
+            <dl>
+              {info.map(([key, value]) => (
+                <div>
+                  <dt>{key}:</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p class="blocks">{blocks.map((color) => <i style={`background: ${color}`}></i>)}</p>
+          </div>
+        </div>
+        <p class="next"><span class="ps">~ $</span> <span class="cursor"></span></p>
+      </div>
+    </div>
+    <a class="back" href="/">← back home</a>
+  </section>
+</Page>
+
+<style>
+  .page {
+    --dot: rgb(136 146 176 / 0.22);
+    position: relative;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 48px 16px;
+    overflow: hidden;
+  }
+
+  :global([data-theme='light']) .page {
+    --dot: rgb(54 53 55 / 0.14);
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 25%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 25%, transparent 80%);
+    pointer-events: none;
+  }
+
+  /* terminal window, dark in both themes */
+  .window {
+    position: relative;
+    width: min(780px, 100%);
+    overflow: hidden;
+    border: 1px solid rgb(136 146 176 / 0.18);
+    border-radius: 14px;
+    background: #16171c;
+    box-shadow: 0 50px 100px -40px rgb(0 0 0 / 0.7);
+  }
+
+  .titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgb(136 146 176 / 0.14);
+  }
+
+  .titlebar i {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3a3d4a;
+  }
+
+  .titlebar i:first-child {
+    background: #41a0ae;
+  }
+
+  .titlebar span {
+    margin: 0 auto;
+    padding-right: 52px;
+    font: 12.5px var(--font-mono);
+    color: #8892b0;
+  }
+
+  .screen {
+    display: grid;
+    gap: 18px;
+    padding: 24px 28px 28px;
+    font: 15px/1.6 var(--font-mono);
+    color: #f5f6ef;
+  }
+
+  .ps {
+    color: #36669c;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.15em;
+    margin-left: 2px;
+    vertical-align: -0.2em;
+    background: #8fcb76;
+    animation: blink 1s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .output {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 44px;
+  }
+
+  .art {
+    margin: 0;
+    font: 700 13px/1.18 var(--font-mono);
+    color: #3a3d4a;
+  }
+
+  .host {
+    font-weight: 700;
+  }
+
+  .host span:first-child {
+    color: #41a0ae;
+  }
+
+  .host span:last-child {
+    color: #3ec995;
+  }
+
+  .rule {
+    color: #3a3d4a;
+  }
+
+  dl div {
+    display: flex;
+    gap: 10px;
+  }
+
+  dt {
+    font-weight: 700;
+    color: #41a0ae;
+  }
+
+  dd {
+    color: #c8ccd8;
+  }
+
+  .blocks {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .blocks i {
+    width: 26px;
+    height: 16px;
+    border-radius: 3px;
+  }
+
+  .back {
+    position: relative;
+    font: 14px var(--font-mono);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back:hover {
+    color: var(--blend-3-theme-color);
+  }
+
+  /* the command is typed first (typewriter.js: 0.7s + 8 × 75ms), then it "runs" */
+  :global(.js) .pending {
+    visibility: hidden;
+  }
+
+  :global(.js) .output,
+  :global(.js) .next {
+    animation: appear 0.01s 1.6s both;
+  }
+
+  :global(.js) .typing {
+    animation:
+      blink 1s steps(1) infinite,
+      gone 0.01s 1.6s forwards;
+  }
+
+  @keyframes appear {
+    from {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes gone {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .output,
+    :global(.js) .next,
+    .cursor {
+      animation: none;
+    }
+
+    .typing {
+      display: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .screen {
+      padding: 20px 18px 24px;
+      font-size: 13.5px;
+    }
+
+    .output {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .art {
+      font-size: 10px;
+    }
+  }
+</style>

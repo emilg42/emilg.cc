@@ -1,0 +1,216 @@
+---
+/**
+ * Fixed header: transparent at the top, frosted once the page scrolls. The
+ * links scroll smoothly to their sections; the spring indicator follows the
+ * section in view (and the pointer while hovering). Below 860px the links move
+ * into a menu.
+ */
+import Logo from '../../src/components/Logo.astro';
+import ThemeToggle from '../../src/components/ThemeToggle.astro';
+import Icon from './Icon.astro';
+import { sections } from './content.js';
+---
+
+<header class="site-header">
+  <div class="bar">
+    <Logo />
+    <nav class="links" aria-label="Sections">
+      <span class="indicator"></span>
+      {sections.map(({ id, label }) => (
+        <a href={`#${id}`} data-umami-event="nav-click" data-umami-event-item={label}>{label}</a>
+      ))}
+    </nav>
+    <div class="actions">
+      <ThemeToggle />
+      <button class="menu-button" type="button" aria-label="Menu" aria-expanded="false">
+        <Icon name="menu" size={22} />
+      </button>
+    </div>
+  </div>
+  <nav class="menu" aria-label="Sections">
+    {sections.map(({ id, label }) => <a href={`#${id}`}>{label}</a>)}
+  </nav>
+</header>
+
+<script>
+  import { spring } from '../../src/lib/spring.js';
+
+  const header = document.querySelector('.site-header');
+  const nav = header.querySelector('.links');
+  const indicator = nav.querySelector('.indicator');
+  const links = [...nav.querySelectorAll('a')];
+  const targets = links.map((link) => document.querySelector(link.getAttribute('href')));
+
+  // indicator: springs between links, fades out when no section is active
+  const metrics = (el) => [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight];
+  const motion = spring({ mass: 2, tension: 300, friction: 35 }, [0, 0, 0, 0], ([x, y, w, h]) => {
+    Object.assign(indicator.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
+  }, { progress: true });
+
+  let active = null;
+  let hovered = null;
+
+  const show = (link) => {
+    if (!link) return indicator.classList.remove('visible');
+    if (indicator.classList.contains('visible')) motion.to(metrics(link));
+    else motion.set(metrics(link));
+    indicator.classList.add('visible');
+  };
+
+  // the active section is the last one whose top passed the upper third
+  const spy = () => {
+    header.classList.toggle('scrolled', scrollY > 8);
+    const line = innerHeight * 0.35;
+    let current = null;
+    targets.forEach((section, i) => {
+      if (section && section.getBoundingClientRect().top <= line) current = links[i];
+    });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) current = links.at(-1);
+    if (current === active) return;
+    active = current;
+    links.forEach((link) => link.classList.toggle('active', link === active));
+    if (!hovered) show(active);
+  };
+
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      spy();
+    });
+  }, { passive: true });
+
+  links.forEach((link) =>
+    link.addEventListener('mouseenter', () => {
+      hovered = link;
+      show(link);
+    }),
+  );
+  nav.addEventListener('mouseleave', () => {
+    hovered = null;
+    show(active);
+  });
+
+  const realign = () => (hovered ?? active) && motion.set(metrics(hovered ?? active));
+  addEventListener('resize', realign);
+  document.fonts.ready.then(realign);
+  spy();
+
+  // menu on small screens
+  const button = header.querySelector('.menu-button');
+  const toggleMenu = (open) => {
+    header.classList.toggle('open', open);
+    button.setAttribute('aria-expanded', String(open));
+  };
+  button.addEventListener('click', () => toggleMenu(!header.classList.contains('open')));
+  header.querySelectorAll('.menu a').forEach((link) => link.addEventListener('click', () => toggleMenu(false)));
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    transition:
+      background-color 0.3s,
+      box-shadow 0.3s;
+  }
+
+  .site-header.scrolled,
+  .site-header.open {
+    background: var(--header-bg);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 40px);
+  }
+
+  .links {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .links a,
+  .menu a {
+    position: relative;
+    z-index: 1;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font: 500 15.5px var(--font-display);
+    color: var(--primary-text-color);
+    text-decoration: none;
+    opacity: 0.72;
+    transition: opacity 0.2s;
+  }
+
+  .links a:hover,
+  .links a.active {
+    opacity: 1;
+  }
+
+  .indicator {
+    position: absolute;
+    z-index: 0;
+    border-radius: 12px;
+    background: var(--tertiary-bg-color);
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+  }
+
+  .indicator.visible {
+    opacity: 1;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-button,
+  .menu {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .links {
+      display: none;
+    }
+
+    .menu-button {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 12px;
+      color: var(--primary-text-color);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .open .menu {
+      display: grid;
+      gap: 2px;
+      padding: 0 16px 18px;
+    }
+
+    .menu a {
+      opacity: 1;
+      font-size: 18px;
+    }
+  }
+</style>

@@ -1,0 +1,132 @@
+---
+/**
+ * Projects as a plain list, like demo 2's project listing on phones: name and
+ * arrow, language and stars, one line of text. No drawings, no numbers.
+ */
+import Icon from './Icon.astro';
+import { projects, links, langColor } from './content.js';
+---
+
+<section id="projects" class="section">
+  <div class="wrap narrow">
+    <div class="heading" data-reveal>
+      <p class="eyebrow">02 · projects</p>
+      <h2>Things I've built</h2>
+    </div>
+    <ol>
+      {projects.map((project, i) => (
+        <li data-reveal style={`--d: ${i * 0.05}s`}>
+          <a href={project.url}>
+            <span class="name">{project.name}/</span>
+            <Icon name="arrow-up-right" size={18} />
+            <span class="meta">
+              <i style={`background: ${langColor[project.lang]}`}></i>
+              {project.lang}
+              <Icon name="star" size={13} /> {project.stars}
+            </span>
+            <span class="desc">{project.text}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <p class="more" data-reveal>
+      <a href={links.github}>More on GitHub <Icon name="arrow-right" size={16} /></a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .narrow {
+    max-width: 760px;
+  }
+
+  .heading {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-size: clamp(34px, 4vw, 50px);
+  }
+
+  ol {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 16px;
+    padding: 26px 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  a:hover {
+    background: rgb(65 160 174 / 0.05);
+  }
+
+  .name {
+    font: 700 26px var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--primary-text-color);
+    transition: color 0.2s;
+  }
+
+  a:hover .name {
+    color: var(--blend-4-theme-color);
+  }
+
+  a > :global(svg) {
+    align-self: center;
+    transition: transform 0.25s;
+  }
+
+  a:hover > :global(svg) {
+    transform: translate(2px, -2px);
+    color: var(--blend-4-theme-color);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    grid-column: 1 / -1;
+    font: 13.5px var(--font-mono);
+  }
+
+  .meta i {
+    width: 9px;
+    height: 9px;
+    margin-right: 2px;
+    border-radius: 50%;
+  }
+
+  .meta :global(svg) {
+    margin-left: 10px;
+  }
+
+  .desc {
+    grid-column: 1 / -1;
+    font-size: 17px;
+  }
+
+  .more {
+    margin-top: 32px;
+  }
+
+  .more a {
+    display: inline-flex;
+    gap: 8px;
+    padding: 0;
+    border: none;
+    font: 600 16px var(--font-display);
+    color: var(--blend-3-theme-color);
+  }
+
+  .more a:hover {
+    background: none;
+  }
+</style>

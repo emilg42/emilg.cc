@@ -1,0 +1,54 @@
+---
+/**
+ * A line that types itself once on load, without moving the page: an
+ * invisible copy holds the space (at any width), the typed text sits on top.
+ * Without JavaScript or with reduced motion the line is simply there.
+ *   text:     the line
+ *   gradient: fill it with the brand gradient
+ */
+const { text, gradient = false, class: className } = Astro.props;
+---
+
+<span class:list={['typed', className]}>
+  <span class="ghost" aria-hidden="true">{text}<span class="caret"></span></span>
+  <span class="live">
+    <span class:list={['text', { gradient }]} data-type>{text}</span><span class="caret"></span>
+  </span>
+</span>
+
+<script>
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  document.querySelectorAll('[data-type]').forEach(async (el) => {
+    const line = el.textContent;
+    el.classList.add('typing');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    el.textContent = '';
+    await sleep(700);
+    for (let n = 1; n <= line.length; n++) {
+      el.textContent = line.slice(0, n);
+      await sleep(75);
+    }
+  });
+</script>
+
+<style>
+  .typed {
+    position: relative;
+    display: block;
+  }
+
+  .ghost {
+    visibility: hidden;
+  }
+
+  .live {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* hidden until the script takes over, so the full line never flashes */
+  :global(.js) .text:not(.typing) {
+    visibility: hidden;
+  }
+</style>
